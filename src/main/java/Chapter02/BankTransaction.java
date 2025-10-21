@@ -14,15 +14,15 @@ public class BankTransaction {
         this.description = description;
     }
 
-    LocalDate getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    double getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    String getDescription() {
+    public String getDescription() {
         return description;
     }
 
