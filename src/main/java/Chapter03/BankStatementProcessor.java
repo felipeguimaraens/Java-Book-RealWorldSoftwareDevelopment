@@ -31,7 +31,7 @@ public class BankStatementProcessor {
                 result.add(bankTransaction);
             }
         }
-        
+
         return result;
     }
 
