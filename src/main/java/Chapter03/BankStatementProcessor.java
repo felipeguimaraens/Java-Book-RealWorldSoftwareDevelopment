@@ -1,6 +1,8 @@
 package Chapter03;
 
 import java.time.Month;
+import java.util.ArrayList;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 
 public class BankStatementProcessor {
@@ -10,35 +12,27 @@ public class BankStatementProcessor {
         this.bankTransactions = transactions;
     }
 
-    public double calculateTotalAmount() {
-        double total = 0;
-        for (BankTransaction transaction : bankTransactions) {
-            total += transaction.getAmount();
-        }
+    public SummaryStatistics summarizeTransactions() {
+        DoubleSummaryStatistics summary = bankTransactions.stream()
+                .mapToDouble(BankTransaction::getAmount)
+                .summaryStatistics();
 
-        return total;
+        return new SummaryStatistics(summary.getSum(), summary.getMax(), summary.getMin(), summary.getAverage());
     }
 
-    public double calculateTotalInMonth(Month month) {
-        double total = 0;
-        for (BankTransaction transaction : bankTransactions) {
-            if(transaction.getDate().getMonth() == month) {
-                total += transaction.getAmount();
-            }
-        }
-
-        return total;
+    public List<BankTransaction> findTransactionsGreaterThanEqual(final int amount) {
+        return findTransactions(bankTransaction -> bankTransaction.getAmount() >= amount);
     }
 
-    public double calculateTotalForCategory (String category) {
-        double total = 0;
-        for (BankTransaction transaction : bankTransactions) {
-            if(transaction.getDescription().equals(category)) {
-                total += transaction.getAmount();
+    public List<BankTransaction> findTransactions(BankTransactionFilter bankTransactionFilter) {
+        List<BankTransaction> result = new ArrayList<>();
+        for (BankTransaction bankTransaction : bankTransactions) {
+            if(bankTransactionFilter.test(bankTransaction)) {
+                result.add(bankTransaction);
             }
         }
-
-        return total;
+        
+        return result;
     }
 
 }
