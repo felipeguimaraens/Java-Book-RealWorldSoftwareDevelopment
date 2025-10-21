@@ -23,7 +23,6 @@ public class BankStatementJSONParser implements BankStatementParser {
 
     @Override
     public List<BankTransaction> parseLinesFrom(List<String> lines) {
-        // Combine all lines into one JSON string
         StringBuilder sb = new StringBuilder();
         for (String line : lines) {
             sb.append(line.trim());
